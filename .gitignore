@@ -33,3 +33,4 @@ move/blackjack/build
 setup/*.env
 .publish.res.json
 .vercel
+app/blackjack.tar

@@ -23,13 +23,19 @@ export const initializeHouseData = async ({
     tx.pure.u64(10 * Number(MIST_PER_SUI)),
   ]);
   let adminBLSPublicKey = getBLSPublicKey(ADMIN_SECRET_KEY!);
-
+  const numberArray: number[] = [];
+  for (let i = 0; i < adminBLSPublicKey.length; i++) {
+    numberArray.push(adminBLSPublicKey[i]);
+  }
   tx.moveCall({
     target: `${PACKAGE_ADDRESS}::single_player_blackjack::initialize_house_data`,
     arguments: [
       tx.object(HOUSE_ADMIN_CAP),
       houseCoin,
-      tx.pure(adminBLSPublicKey),
+      tx.makeMoveVec({
+        type: `u8`,
+        elements: numberArray.map((n) => tx.pure.u8(n)),
+      }),
     ],
   });
 
